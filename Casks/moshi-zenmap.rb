@@ -8,35 +8,35 @@ cask "moshi-zenmap" do
   homepage "https://nmap.org/zenmap/"
 
   livecheck do
-    url "https://nmap.org/download"
-    regex(/href=['"]?[^'">]*nmap[._-]v?(\d+(?:\.\d+)+)\.dmg/i)
+    url "https://nmap.org/dist/"
+    regex(/nmap[._-]v?(\d+(?:\.\d+)+)\.dmg/i)
   end
 
   conflicts_with cask: "zenmap"
 
   pkg "nmap-#{version}.mpkg"
 
-  uninstall pkgutil: [
-              "org.nmap.ncat",
-              "org.nmap.ndiff",
-              "org.nmap.nmap",
-              "org.nmap.nping",
-              "org.nmap.zenmap",
+  uninstall quit:    "org.insecure.Zenmap",
+            pkgutil: [
+              "org.insecure.nmap",
+              "org.insecure.nmap.ncat",
+              "org.insecure.nmap.nping",
+              "org.insecure.nmap.zenmap",
             ],
             delete:  "/Applications/Zenmap.app"
 
   zap trash: [
     "~/.zenmap",
-    "~/Library/Preferences/org.nmap.zenmap.plist",
-    "~/Library/Saved Application State/org.nmap.zenmap.savedState",
+    "~/Library/Preferences/org.insecure.Zenmap.plist",
+    "~/Library/Saved Application State/org.insecure.Zenmap.savedState",
   ]
 
   caveats do
     requires_rosetta
+    <<~EOS
+      Zenmap is bundled inside the Nmap #{version} installer but currently
+      reports its own version as 7.97 in the About dialog. This is expected
+      and due to upstream not updating Zenmap’s internal version string.
+    EOS
   end
-  caveats <<~EOS
-    Zenmap is bundled inside the Nmap #{version} installer but currently
-    reports its own version as 7.97 in the About dialog. This is expected
-    and due to upstream not updating Zenmap’s internal version string.
-  EOS
 end
