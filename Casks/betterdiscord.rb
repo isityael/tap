@@ -1,4 +1,4 @@
-cask "betterdiscord-installer-unofficial" do
+cask "betterdiscord-installer" do
   version "1.3.0"
   sha256 "85bdd7b44f9624f7740af4d26682f21730c47a643fde009f2ad766afa19356b8"
 
@@ -23,7 +23,6 @@ cask "betterdiscord-installer-unofficial" do
       "/Applications/Discord.app",
       "/Applications/Discord PTB.app",
       "/Applications/Discord Canary.app",
-      "/Applications/Discord Development.app",
       "#{Dir.home}/Applications/Discord.app",
       "#{Dir.home}/Applications/Discord PTB.app",
       "#{Dir.home}/Applications/Discord Canary.app",
@@ -50,10 +49,10 @@ cask "betterdiscord-installer-unofficial" do
   caveats do
     requires_rosetta
     <<~EOS
-      Supports Discord Stable, PTB, Canary, and Development. Ensure at least one of these is installed; the installer will detect installed editions.
+      Supports Discord Stable, PTB and Canary. Ensure at least one of these is installed; the installer will detect installed editions.
       This app may fail Gatekeeper checks (unsigned/not notarized).
       If macOS blocks it, use: Right-click → Open (once), or install with:
-        HOMEBREW_CASK_OPTS="--no-quarantine" brew install --cask isityael/moshi/betterdiscord-installer-unofficial
+        HOMEBREW_CASK_OPTS="--no-quarantine" brew install --cask isityael/moshi/betterdiscord-installer
     EOS
   end
 end
