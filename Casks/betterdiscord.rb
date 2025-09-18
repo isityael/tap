@@ -1,4 +1,4 @@
-cask "betterdiscord-installer" do
+cask "betterdiscord" do
   version "1.3.0"
   sha256 "85bdd7b44f9624f7740af4d26682f21730c47a643fde009f2ad766afa19356b8"
 
