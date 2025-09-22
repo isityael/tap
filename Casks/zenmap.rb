@@ -1,4 +1,4 @@
-cask "moshi-zenmap" do
+cask "zenmap" do
   version "7.98"
   sha256 "461bb256780aa8c5e76f95010b780e5fd58743dd74432b17c97a1ca525722b7b"
 
