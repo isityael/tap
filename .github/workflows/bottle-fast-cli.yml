@@ -24,7 +24,7 @@ jobs:
         brew install --build-bottle ./Formula/fast-cli.rb
         brew bottle --json --root-url "https://github.com/${{ github.repository }}/releases/download/fast-cli-${VERSION}" fast-cli
     - name: Upload bottle artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: bottle-intel
         path: |
@@ -47,7 +47,7 @@ jobs:
         brew install --build-bottle ./Formula/fast-cli.rb
         brew bottle --json --root-url "https://github.com/${{ github.repository }}/releases/download/fast-cli-${VERSION}" fast-cli
     - name: Upload bottle artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: bottle-arm
         path: |
