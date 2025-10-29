@@ -19,7 +19,40 @@ class FastCli < Formula
       offending = Dir["#{libexec}/lib/node_modules/**/prebuilds/*-x64*"]
       offending.each { |path| rm_r(path) }
     end
+    # Symlink all npm binaries first
     bin.install_symlink Dir["#{libexec}/bin/*"]
+
+    # Replace 'fast' with a wrapper that sets a Chrome executable if available
+    (bin/"fast").write <<~EOS
+      #!/bin/bash
+      set -e
+      if [ -z "$PUPPETEER_EXECUTABLE_PATH" ]; then
+        candidates=(
+          "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+          "/Applications/Google Chrome Beta.app/Contents/MacOS/Google Chrome Beta"
+          "/Applications/Google Chrome Dev.app/Contents/MacOS/Google Chrome Dev"
+          "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"
+        )
+        for c in "${candidates[@]}"; do
+          if [ -x "$c" ]; then
+            export PUPPETEER_EXECUTABLE_PATH="$c"
+            break
+          fi
+        done
+      fi
+      exec "#{libexec}/bin/fast" "$@"
+    EOS
+    (bin/"fast").chmod 0755
+  end
+
+  def caveats
+    <<~EOS
+      fast-cli uses Puppeteer to control Chrome.
+      If you see "Could not find Chrome", either:
+        1) Run once:  npx puppeteer browsers install chrome
+        2) Or set:   export PUPPETEER_EXECUTABLE_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      This formula also auto-detects Chrome Beta/Dev/Canary under /Applications when available.
+    EOS
   end
 
   test do
