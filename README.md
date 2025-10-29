@@ -1,15 +1,15 @@
-# isityael Tap
+# sm0sh1 Tap
 
 ## How do I install these formulae?
 
-`brew install isityael/tap/<formula>`
+`brew install sm0sh1/tap/<formula>`
 
-Or `brew tap isityael/tap` and then `brew install <formula>`.
+Or `brew tap sm0sh1/tap` and then `brew install <formula>`.
 
 Or, in a `brew bundle` `Brewfile`:
 
 ```ruby
-tap "isityael/tap"
+tap "sm0sh1/tap"
 brew "<formula>"
 ```
 
