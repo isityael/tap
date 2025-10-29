@@ -1,0 +1,72 @@
+name: bottle fast-cli
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - Formula/fast-cli.rb
+
+jobs:
+  bottle-intel:
+    runs-on: macos-13 # Intel
+    steps:
+    - uses: actions/checkout@v4
+    - uses: Homebrew/actions/setup-homebrew@v2
+    - name: Build bottle
+      run: |
+        brew update
+        brew install --build-bottle ./Formula/fast-cli.rb
+        brew bottle --json --root-url "https://github.com/${{ github.repository }}/releases/download/fast-cli-5.0.2" fast-cli
+    - name: Upload bottle artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: bottle-intel
+        path: |
+          *.json
+          *.tar.gz
+
+  bottle-arm:
+    runs-on: macos-14 # Apple Silicon
+    steps:
+    - uses: actions/checkout@v4
+    - uses: Homebrew/actions/setup-homebrew@v2
+    - name: Build bottle
+      run: |
+        brew update
+        brew install --build-bottle ./Formula/fast-cli.rb
+        brew bottle --json --root-url "https://github.com/${{ github.repository }}/releases/download/fast-cli-5.0.2" fast-cli
+    - name: Upload bottle artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: bottle-arm
+        path: |
+          *.json
+          *.tar.gz
+
+  release-and-merge:
+    needs: [ bottle-intel, bottle-arm ]
+    runs-on: macos-14
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@v4
+      with:
+        name: bottle-intel
+        path: bottles
+    - uses: actions/download-artifact@v4
+      with:
+        name: bottle-arm
+        path: bottles
+    - name: Create/Update GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: fast-cli-5.0.2
+        files: bottles/*
+    - uses: Homebrew/actions/setup-homebrew@v2
+    - name: Merge bottle block into formula
+      run: |
+        brew update
+        brew bottle --merge --write --no-commit bottles/*.json
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add Formula/fast-cli.rb
+        git commit -m "fast-cli: add bottle block for 5.0.2"
+        git push
