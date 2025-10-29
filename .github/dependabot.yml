@@ -1,0 +1,25 @@
+version: 2
+updates:
+# Keep GitHub Actions up to date for this tap
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: monday
+    time: "09:00"
+    timezone: Europe/Berlin
+  open-pull-requests-limit: 10
+  labels:
+  - dependencies
+  - github-actions
+  assignees:
+  - isityael
+  commit-message:
+    prefix: chore
+    include: scope
+  groups:
+    actions-minor:
+      applies-to: version-updates
+      update-types:
+      - minor
+      - patch

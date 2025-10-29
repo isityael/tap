@@ -1,0 +1,2 @@
+# Request review on Dependabot PRs that touch workflows
+.github/workflows/*  @isityael
