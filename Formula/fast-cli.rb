@@ -14,6 +14,11 @@ class FastCli < Formula
 
   def install
     system "npm", "install", *std_npm_args
+    # Prune non-native prebuilt binaries that Homebrew flags (x86_64 on arm64 Macs)
+    if Hardware::CPU.arm?
+      offending = Dir["#{libexec}/lib/node_modules/**/prebuilds/*-x64*"]
+      offending.each { |path| rm_r(path) }
+    end
     bin.install_symlink Dir["#{libexec}/bin/*"]
   end
 
