@@ -57,7 +57,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-brew-cache-
 
-    - run: brew test-bot --only-cleanup-before --only-setup
+    - name: Cleanup before
+      run: brew test-bot --only-cleanup-before
+
+    - name: Setup
+      run: brew test-bot --only-setup
 
     - name: Tap syntax
       run: brew test-bot --only-tap-syntax
