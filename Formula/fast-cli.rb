@@ -13,12 +13,17 @@ class FastCli < Formula
   depends_on "node"
 
   def install
+    ENV["PUPPETEER_SKIP_DOWNLOAD"] = "true"
     system "npm", "install", *std_npm_args
-    # Prune non-native prebuilt binaries that Homebrew flags (x86_64 on arm64 Macs)
+    # Prune non-native prebuilt binaries to produce relocatable bottles
+    prebuild_glob = "#{libexec}/lib/node_modules/**/prebuilds/*"
     if Hardware::CPU.arm?
-      offending = Dir["#{libexec}/lib/node_modules/**/prebuilds/*-x64*"]
-      offending.each { |path| rm_r(path) }
+      rm_r(Dir[File.join(prebuild_glob, "*-x64*")])
+    elsif Hardware::CPU.intel?
+      rm_r(Dir[File.join(prebuild_glob, "*-arm64*")])
     end
+    # Never ship iOS simulator prebuilds
+    rm_r(Dir[File.join(prebuild_glob, "ios-*")])
     # Symlink all npm binaries first
     bin.install_symlink Dir["#{libexec}/bin/*"]
 
