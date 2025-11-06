@@ -27,8 +27,11 @@ class FastCli < Formula
     # Symlink all npm binaries first
     bin.install_symlink Dir["#{libexec}/bin/*"]
 
+    fast_bin = bin/"fast"
+    fast_bin.unlink if fast_bin.exist?
+
     # Replace 'fast' with a wrapper that sets a Chrome executable if available
-    (bin/"fast").write <<~EOS
+    fast_bin.write <<~EOS
       #!/bin/bash
       set -e
       if [ -z "$PUPPETEER_EXECUTABLE_PATH" ]; then
@@ -47,7 +50,7 @@ class FastCli < Formula
       fi
       exec "#{libexec}/bin/fast" "$@"
     EOS
-    (bin/"fast").chmod 0755
+    fast_bin.chmod 0755
   end
 
   def caveats
