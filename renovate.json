@@ -1,0 +1,84 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "schedule:weekly",
+    ":semanticCommits",
+    ":automergeMinor"
+  ],
+  "labels": ["dependencies"],
+  "assignees": ["isityael"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "BetterDiscord cask — GitHub releases",
+      "fileMatch": ["^Casks/betterdiscord\\.rb$"],
+      "matchStrings": [
+        "version \"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
+      ],
+      "depNameTemplate": "BetterDiscord/Installer",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "description": "ExifCleaner cask — GitHub releases",
+      "fileMatch": ["^Casks/exifcleaner\\.rb$"],
+      "matchStrings": [
+        "version \"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
+      ],
+      "depNameTemplate": "szTheory/exifcleaner",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "Headlamp cask — GitHub releases",
+      "fileMatch": ["^Casks/headlamp\\.rb$"],
+      "matchStrings": [
+        "version \"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
+      ],
+      "depNameTemplate": "headlamp-k8s/headlamp",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "Zenmap cask — nmap.org releases",
+      "fileMatch": ["^Casks/zenmap\\.rb$"],
+      "matchStrings": [
+        "version \"(?<currentValue>\\d+\\.\\d+)\""
+      ],
+      "depNameTemplate": "nmap/nmap",
+      "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^nmap-(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "fast-cli formula — npm registry",
+      "fileMatch": ["^Formula/fast-cli\\.rb$"],
+      "matchStrings": [
+        "url \"https://registry\\.npmjs\\.org/fast-cli/-/fast-cli-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.tgz\""
+      ],
+      "depNameTemplate": "fast-cli",
+      "datasourceTemplate": "npm"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Group all cask updates together",
+      "matchFileNames": ["Casks/**"],
+      "groupName": "cask updates",
+      "commitMessageTopic": "cask {{depName}}"
+    },
+    {
+      "description": "Formula updates get individual PRs",
+      "matchFileNames": ["Formula/**"],
+      "commitMessageTopic": "formula {{depName}}"
+    },
+    {
+      "description": "Headlamp is disabled — suppress updates",
+      "matchDepNames": ["headlamp-k8s/headlamp"],
+      "enabled": false
+    }
+  ]
+}
