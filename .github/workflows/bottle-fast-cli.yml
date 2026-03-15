@@ -9,7 +9,7 @@ on:
 
 jobs:
   bottle-intel:
-    runs-on: macos-13 # Intel
+    runs-on: macos-15 # Intel
     steps:
     - uses: actions/checkout@v6
     - uses: Homebrew/actions/setup-homebrew@main
@@ -33,7 +33,7 @@ jobs:
           *.tar.gz
 
   bottle-arm:
-    runs-on: macos-14 # Apple Silicon
+    runs-on: macos-15 # Apple Silicon
     steps:
     - uses: actions/checkout@v6
     - uses: Homebrew/actions/setup-homebrew@main
@@ -58,7 +58,7 @@ jobs:
 
   release-and-merge:
     needs: [ bottle-intel, bottle-arm ]
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
     - uses: actions/checkout@v6
     - uses: actions/download-artifact@v8
