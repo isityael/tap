@@ -43,7 +43,7 @@
       "matchStrings": [
         "version \"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
       ],
-      "depNameTemplate": "headlamp-k8s/headlamp",
+      "depNameTemplate": "kubernetes-sigs/headlamp",
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v(?<version>.+)$"
     },
@@ -87,7 +87,7 @@
     },
     {
       "description": "Headlamp is disabled — suppress updates",
-      "matchDepNames": ["headlamp-k8s/headlamp"],
+      "matchDepNames": ["kubernetes-sigs/headlamp"],
       "enabled": false
     }
   ]
