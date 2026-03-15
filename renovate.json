@@ -12,7 +12,9 @@
     {
       "customType": "regex",
       "description": "BetterDiscord cask — GitHub releases",
-      "fileMatch": ["^Casks/betterdiscord\\.rb$"],
+      "managerFilePatterns": [
+        "/^Casks/betterdiscord\.rb$/"
+      ],
       "matchStrings": [
         "version \"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
       ],
@@ -22,7 +24,9 @@
     {
       "customType": "regex",
       "description": "ExifCleaner cask — GitHub releases",
-      "fileMatch": ["^Casks/exifcleaner\\.rb$"],
+      "managerFilePatterns": [
+        "/^Casks/exifcleaner\.rb$/"
+      ],
       "matchStrings": [
         "version \"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
       ],
@@ -33,7 +37,9 @@
     {
       "customType": "regex",
       "description": "Headlamp cask — GitHub releases",
-      "fileMatch": ["^Casks/headlamp\\.rb$"],
+      "managerFilePatterns": [
+        "/^Casks/headlamp\.rb$/"
+      ],
       "matchStrings": [
         "version \"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
       ],
@@ -44,7 +50,9 @@
     {
       "customType": "regex",
       "description": "Zenmap cask — nmap.org releases",
-      "fileMatch": ["^Casks/zenmap\\.rb$"],
+      "managerFilePatterns": [
+        "/^Casks/zenmap\.rb$/"
+      ],
       "matchStrings": [
         "version \"(?<currentValue>\\d+\\.\\d+)\""
       ],
@@ -55,7 +63,9 @@
     {
       "customType": "regex",
       "description": "fast-cli formula — npm registry",
-      "fileMatch": ["^Formula/fast-cli\\.rb$"],
+      "managerFilePatterns": [
+        "/^Formula/fast-cli\.rb$/"
+      ],
       "matchStrings": [
         "url \"https://registry\\.npmjs\\.org/fast-cli/-/fast-cli-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.tgz\""
       ],
