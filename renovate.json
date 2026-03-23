@@ -7,7 +7,7 @@
     ":automergeMinor"
   ],
   "dependencyDashboardApproval": false,
-  "assignees": ["isityael"],
+  "assignees": [ "isityael" ],
   "customManagers": [
     {
       "customType": "regex",
@@ -76,18 +76,18 @@
   "packageRules": [
     {
       "description": "Group all cask updates together",
-      "matchFileNames": ["Casks/**"],
+      "matchFileNames": [ "Casks/**" ],
       "groupName": "cask updates",
       "commitMessageTopic": "cask {{depName}}"
     },
     {
       "description": "Formula updates get individual PRs",
-      "matchFileNames": ["Formula/**"],
+      "matchFileNames": [ "Formula/**" ],
       "commitMessageTopic": "formula {{depName}}"
     },
     {
       "description": "Headlamp is disabled — suppress updates",
-      "matchDepNames": ["kubernetes-sigs/headlamp"],
+      "matchDepNames": [ "kubernetes-sigs/headlamp" ],
       "enabled": false
     }
   ]

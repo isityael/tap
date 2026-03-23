@@ -1,0 +1,45 @@
+# homebrew-tap test — audit + install + test formulae on macOS via SSH
+when:
+  - event: pull_request
+    path:
+      - "Formula/**"
+      - "Casks/**"
+  - event: push
+    branch: main
+    path:
+      - "Formula/**"
+      - "Casks/**"
+  - event: manual
+
+steps:
+  - name: test-macos
+    image: appleboy/drone-ssh
+    environment:
+      GITHUB_TOKEN:
+        from_secret: github_token
+    settings:
+      host: 10.0.10.4
+      username: smeya
+      key:
+        from_secret: mac_builder_ssh_key
+      port: 22
+      command_timeout: 30m
+      script_stop: true
+      envs:
+        - GITHUB_TOKEN
+        - CI_COMMIT_SHA
+        - CI_COMMIT_PULL_REQUEST
+      script:
+        - set -euo pipefail
+        - WORKDIR=$(mktemp -d)
+        - git clone --depth=50 "https://x-access-token:${GITHUB_TOKEN}@github.com/isityael/homebrew-tap.git" "$WORKDIR"
+        - cd "$WORKDIR"
+        - |
+          if [ -n "${CI_COMMIT_PULL_REQUEST:-}" ]; then
+            git fetch origin "pull/${CI_COMMIT_PULL_REQUEST}/head" --depth=50
+            git checkout FETCH_HEAD
+          else
+            git checkout "${CI_COMMIT_SHA}"
+          fi
+        - bash "$WORKDIR/Scripts/test-macos.sh" "$WORKDIR"
+        - rm -rf "$WORKDIR"
