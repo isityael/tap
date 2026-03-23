@@ -19,16 +19,16 @@ steps:
           echo "No changed formula/cask files"
           exit 0
         fi
-      - echo "Changed files: $CHANGED"
+      - 'echo "Changed files: $CHANGED"'
       - bash Scripts/update-checksums.sh $CHANGED
       - git config user.name "Woodpecker CI"
       - git config user.email "ci@m0sh1.cc"
-      - git remote set-url origin "https://x-access-token:$GITHUB_TOKEN@github.com/isityael/homebrew-tap.git"
+      - 'git remote set-url origin "https://x-access-token:$GITHUB_TOKEN@github.com/isityael/homebrew-tap.git"'
       - git add Formula/ Casks/
       - |
         if git diff --cached --quiet; then
           echo "No checksum changes needed"
           exit 0
         fi
-      - git commit -m "fix: update sha256 checksums [CI SKIP]"
+      - 'git commit -m "fix: update sha256 checksums [CI SKIP]"'
       - git push origin HEAD
