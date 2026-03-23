@@ -1,0 +1,38 @@
+# homebrew-tap lint — tap syntax validation + shellcheck
+when:
+  - event: [pull_request]
+    path:
+      - "Formula/**"
+      - "Casks/**"
+      - "Scripts/**"
+      - ".woodpecker/**"
+  - event: push
+    branch: main
+    path:
+      - "Formula/**"
+      - "Casks/**"
+      - "Scripts/**"
+      - ".woodpecker/**"
+  - event: manual
+
+steps:
+  - name: tap-syntax
+    image: ghcr.io/homebrew/brew:latest
+    environment:
+      HOMEBREW_NO_ANALYTICS: "1"
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_COLOR: "1"
+      HOMEBREW_DEVELOPER: "1"
+    commands:
+      - brew tap-new --no-git isityael/tap
+      - TAP_PATH="$(brew --repository)/Library/Taps/isityael/homebrew-tap"
+      - mkdir -p "$TAP_PATH/Formula" "$TAP_PATH/Casks"
+      - cp -r Formula/* "$TAP_PATH/Formula/" 2>/dev/null || true
+      - cp -r Casks/* "$TAP_PATH/Casks/" 2>/dev/null || true
+      - brew audit --tap isityael/tap || true
+      - brew style isityael/tap
+
+  - name: shellcheck
+    image: koalaman/shellcheck-alpine:stable
+    commands:
+      - find Scripts -type f -name "*.sh" -print0 | xargs -0 shellcheck -S error
