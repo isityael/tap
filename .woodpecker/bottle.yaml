@@ -8,7 +8,7 @@ when:
 
 steps:
   - name: bottle-arm
-    image: alpine:3.21
+    image: dhi.io/alpine-base:3.23-dev
     environment:
       GITHUB_TOKEN:
         from_secret: github_token
