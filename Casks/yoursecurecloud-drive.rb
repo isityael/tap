@@ -12,8 +12,8 @@ cask "yoursecurecloud-drive" do
   # Version discovered from PKG Distribution metadata.
   # To check for updates: pkgutil --expand the PKG and inspect Distribution XML.
 
-  depends_on macos: ">= :catalina"
   conflicts_with cask: "seadrive"
+  depends_on macos: ">= :catalina"
 
   pkg "ysc_drive_client_latest.pkg"
 
