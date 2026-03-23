@@ -9,9 +9,6 @@ when:
 steps:
   - name: bottle-arm
     image: appleboy/drone-ssh
-    environment:
-      GITHUB_TOKEN:
-        from_secret: github_token
     settings:
       host: 10.0.10.4
       username: smeya
@@ -21,8 +18,10 @@ steps:
       command_timeout: 30m
       script_stop: true
       envs:
-        - GITHUB_TOKEN
-        - CI_COMMIT_SHA
+        - github_token
+        - ci_commit_sha
+      github_token:
+        from_secret: github_token
       script:
         - set -euo pipefail
         - WORKDIR=$(mktemp -d)

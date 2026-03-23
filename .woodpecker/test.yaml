@@ -14,9 +14,6 @@ when:
 steps:
   - name: test-macos
     image: appleboy/drone-ssh
-    environment:
-      GITHUB_TOKEN:
-        from_secret: github_token
     settings:
       host: 10.0.10.4
       username: smeya
@@ -26,9 +23,11 @@ steps:
       command_timeout: 30m
       script_stop: true
       envs:
-        - GITHUB_TOKEN
-        - CI_COMMIT_SHA
-        - CI_COMMIT_PULL_REQUEST
+        - github_token
+        - ci_commit_sha
+        - ci_commit_pull_request
+      github_token:
+        from_secret: github_token
       script:
         - set -euo pipefail
         - WORKDIR=$(mktemp -d)
