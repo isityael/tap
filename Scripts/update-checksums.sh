@@ -36,6 +36,10 @@ for file in "$@"; do
       version=$(ruby -e "puts File.read('$file')[/fast-cli-([\\d.]+)\\.tgz/, 1]")
       url="https://registry.npmjs.org/fast-cli/-/fast-cli-${version}.tgz"
       ;;
+    yoursecurecloud|yoursecurecloud-drive)
+      echo "Skipping $name (sha256 :no_check, versionless URL)" >&2
+      continue
+      ;;
     *)
       echo "Skipping unknown package: $name" >&2
       continue
