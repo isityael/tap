@@ -20,7 +20,7 @@ steps:
       SSH_KEY:
         from_secret: mac_builder_ssh_key
     commands:
-      - apk add --no-cache openssh-client
+      - apk add --no-cache openssh-client bash
       - mkdir -p ~/.ssh && chmod 700 ~/.ssh
       - printf '%s\n' "$SSH_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
       - ssh-keyscan -H 10.0.10.4 >> ~/.ssh/known_hosts 2>/dev/null
