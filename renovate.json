@@ -6,7 +6,7 @@
     ":semanticCommits",
     ":automergeMinor"
   ],
-  "dependencyDashboardApproval": false,
+  "dependencyDashboardApproval": true,
   "assignees": [ "isityael" ],
   "customManagers": [
     {
@@ -88,7 +88,7 @@
     {
       "description": "Headlamp is disabled — suppress updates",
       "matchDepNames": [ "kubernetes-sigs/headlamp" ],
-      "enabled": false
+      "enabled": true
     }
   ]
 }

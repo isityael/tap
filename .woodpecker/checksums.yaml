@@ -23,7 +23,7 @@ steps:
       - bash Scripts/update-checksums.sh $CHANGED
       - git config user.name "Woodpecker CI"
       - git config user.email "ci@m0sh1.cc"
-      - 'git remote set-url origin "https://x-access-token:$GITHUB_TOKEN@github.com/isityael/homebrew-tap.git"'
+      - 'git remote set-url origin "https://x-access-token:$GITHUB_TOKEN@github.com/isityael/tap.git"'
       - git add Formula/ Casks/
       - |
         if git diff --cached --quiet; then
