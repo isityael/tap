@@ -36,20 +36,20 @@ cd "$BOTTLE_DIR"
 brew uninstall fast-cli 2>/dev/null || true
 HOMEBREW_NO_AUTO_UPDATE=1 brew install --build-bottle isityael/tap/fast-cli
 brew bottle --json \
-  --root-url "https://github.com/isityael/homebrew-tap/releases/download/fast-cli-${VERSION}" \
+  --root-url "https://github.com/isityael/tap/releases/download/fast-cli-${VERSION}" \
   isityael/tap/fast-cli
 
 # Create or update GitHub Release
 echo "==> Uploading to GitHub Release fast-cli-${VERSION}"
-if ! gh release view "fast-cli-${VERSION}" --repo isityael/homebrew-tap &>/dev/null; then
+if ! gh release view "fast-cli-${VERSION}" --repo isityael/tap &>/dev/null; then
   gh release create "fast-cli-${VERSION}" \
-    --repo isityael/homebrew-tap \
+    --repo isityael/tap \
     --title "fast-cli ${VERSION}" \
     --notes "ARM64 macOS bottle for fast-cli ${VERSION}" \
     "$BOTTLE_DIR"/*.bottle.tar.gz
 else
   gh release upload "fast-cli-${VERSION}" \
-    --repo isityael/homebrew-tap \
+    --repo isityael/tap \
     "$BOTTLE_DIR"/*.bottle.tar.gz --clobber
 fi
 
