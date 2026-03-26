@@ -1,5 +1,5 @@
 cask "headlamp" do
-  version "0.40.1"
+  version "0.41.0"
 
   on_arm do
     sha256 "bb109455be76ca5e9839ef692caf8079cc3cf08abd159de5acec079a6b60ce58"
