@@ -8,7 +8,7 @@ when:
 
 steps:
   - name: update-checksums
-    image: ghcr.io/homebrew/brew:latest@sha256:1e2251bf7c25fbc254e53f1b38b828f3a511100e9043a3513854fd0e8e8a67ca
+    image: ghcr.io/homebrew/brew:latest@sha256:825f62f804d397df346ef7a1230194c65ae5a98057970d0542f3733885f188b3
     environment:
       GITHUB_TOKEN:
         from_secret: github_token
