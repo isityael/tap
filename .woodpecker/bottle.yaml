@@ -18,12 +18,12 @@ steps:
       - apk add --no-cache openssh-client bash
       - mkdir -p ~/.ssh && chmod 700 ~/.ssh
       - printf '%s\n' "$SSH_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-      - ssh-keyscan -H 10.0.10.4 >> ~/.ssh/known_hosts 2>/dev/null
+      - ssh-keyscan -H 10.0.0.6 >> ~/.ssh/known_hosts 2>/dev/null
       - |
-        ssh smeya@10.0.10.4 "export GITHUB_TOKEN='${GITHUB_TOKEN}'; export CI_COMMIT_SHA='${CI_COMMIT_SHA}'; bash" <<'REMOTE_EOF'
+        ssh yaelmeya@10.0.0.6 "export GITHUB_TOKEN='${GITHUB_TOKEN}'; export CI_COMMIT_SHA='${CI_COMMIT_SHA}'; bash" <<'REMOTE_EOF'
         set -euo pipefail
         WORKDIR=$(mktemp -d)
-        git clone --depth=50 "https://x-access-token:${GITHUB_TOKEN}@github.com/isityael/tap.git" "$WORKDIR"
+        git clone --depth=50 "https://x-access-token:${GITHUB_TOKEN}@github.com/yaelmoshi/tap.git" "$WORKDIR"
         cd "$WORKDIR" && git checkout "${CI_COMMIT_SHA}"
         export GITHUB_TOKEN
         bash "$WORKDIR/Scripts/bottle-arm.sh" "$WORKDIR"

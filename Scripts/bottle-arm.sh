@@ -12,7 +12,7 @@ VERSION=$(ruby -e 'puts File.read("Formula/fast-cli.rb")[/fast-cli-([\d.]+)\.tgz
 echo "==> Building bottle for fast-cli ${VERSION}"
 
 # Point Homebrew tap at our checkout (backup existing)
-TAP_DIR="$(brew --repository)/Library/Taps/isityael/homebrew-tap"
+TAP_DIR="$(brew --repository)/Library/Taps/yaelmoshi/homebrew-tap"
 if [[ -e "${TAP_DIR}" ]] || [[ -L "${TAP_DIR}" ]]
 then
   mv "${TAP_DIR}" "${TAP_DIR}.ci-backup"
@@ -36,23 +36,23 @@ trap cleanup EXIT
 # Build bottle (ARM64 only)
 cd "${BOTTLE_DIR}"
 brew uninstall fast-cli 2>/dev/null || true
-HOMEBREW_NO_AUTO_UPDATE=1 brew install --build-bottle isityael/tap/fast-cli
+HOMEBREW_NO_AUTO_UPDATE=1 brew install --build-bottle yaelmoshi/tap/fast-cli
 brew bottle --json \
-  --root-url "https://github.com/isityael/tap/releases/download/fast-cli-${VERSION}" \
-  isityael/tap/fast-cli
+  --root-url "https://github.com/yaelmoshi/tap/releases/download/fast-cli-${VERSION}" \
+  yaelmoshi/tap/fast-cli
 
 # Create or update GitHub Release
 echo "==> Uploading to GitHub Release fast-cli-${VERSION}"
-if ! gh release view "fast-cli-${VERSION}" --repo isityael/tap &>/dev/null
+if ! gh release view "fast-cli-${VERSION}" --repo yaelmoshi/tap &>/dev/null
 then
   gh release create "fast-cli-${VERSION}" \
-    --repo isityael/tap \
+    --repo yaelmoshi/tap \
     --title "fast-cli ${VERSION}" \
     --notes "ARM64 macOS bottle for fast-cli ${VERSION}" \
     "${BOTTLE_DIR}"/*.bottle.tar.gz
 else
   gh release upload "fast-cli-${VERSION}" \
-    --repo isityael/tap \
+    --repo yaelmoshi/tap \
     "${BOTTLE_DIR}"/*.bottle.tar.gz --clobber
 fi
 

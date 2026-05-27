@@ -53,7 +53,7 @@ cask "betterdiscord" do
       Supports Discord Stable, PTB and Canary. Ensure at least one of these is installed; the installer will detect installed editions.
       This app may fail Gatekeeper checks (unsigned/not notarized).
       If macOS blocks it, use: Right-click → Open (once), or install with:
-        HOMEBREW_CASK_OPTS="--no-quarantine" brew install --cask isityael/tap/betterdiscord-installer
+        HOMEBREW_CASK_OPTS="--no-quarantine" brew install --cask yaelmoshi/tap/betterdiscord-installer
     EOS
   end
 end
