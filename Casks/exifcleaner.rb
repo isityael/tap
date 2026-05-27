@@ -15,7 +15,7 @@ cask "exifcleaner" do
 
   conflicts_with cask: "exifcleaner"
   # Upstream ships Intel-only; Apple Silicon users need Rosetta.
-  depends_on macos: ">= :el_capitan"
+  depends_on :macos
 
   app "ExifCleaner.app"
 

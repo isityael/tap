@@ -13,6 +13,7 @@ cask "zenmap" do
   end
 
   conflicts_with cask: "zenmap"
+  depends_on :macos
 
   pkg "nmap-#{version}.mpkg"
 

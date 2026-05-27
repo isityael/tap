@@ -23,6 +23,8 @@ cask "headlamp" do
     strategy :github_latest
   end
 
+  depends_on :macos
+
   app "Headlamp.app"
 
   uninstall quit: "dev.headlamp.app"

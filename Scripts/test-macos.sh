@@ -5,19 +5,21 @@
 set -euo pipefail
 
 REPO_DIR="${1:?Usage: test-macos.sh <repo-dir>}"
-cd "$REPO_DIR"
+cd "${REPO_DIR}"
 
 # Point Homebrew tap at our checkout (backup existing)
 TAP_DIR="$(brew --repository)/Library/Taps/isityael/homebrew-tap"
-if [ -e "$TAP_DIR" ] || [ -L "$TAP_DIR" ]; then
-  mv "$TAP_DIR" "${TAP_DIR}.ci-backup"
+if [[ -e "${TAP_DIR}" ]] || [[ -L "${TAP_DIR}" ]]
+then
+  mv "${TAP_DIR}" "${TAP_DIR}.ci-backup"
 fi
-ln -sfn "$REPO_DIR" "$TAP_DIR"
+ln -sfn "${REPO_DIR}" "${TAP_DIR}"
 
 cleanup() {
-  rm -f "$TAP_DIR"
-  if [ -e "${TAP_DIR}.ci-backup" ]; then
-    mv "${TAP_DIR}.ci-backup" "$TAP_DIR"
+  rm -f "${TAP_DIR}"
+  if [[ -e "${TAP_DIR}.ci-backup" ]]
+  then
+    mv "${TAP_DIR}.ci-backup" "${TAP_DIR}"
   fi
 }
 trap cleanup EXIT
@@ -30,23 +32,27 @@ brew audit --tap isityael/tap || true
 
 echo "==> Installing and testing formulae"
 FAILED=0
-for formula in Formula/*.rb; do
-  [ -f "$formula" ] || continue
-  name=$(basename "$formula" .rb)
-  echo "--- $name ---"
-  if ! brew install "isityael/tap/$name"; then
-    echo "FAIL: install $name"
+for formula in Formula/*.rb
+do
+  [[ -f "${formula}" ]] || continue
+  name=$(basename "${formula}" .rb)
+  echo "--- ${name} ---"
+  if ! brew install "isityael/tap/${name}"
+  then
+    echo "FAIL: install ${name}"
     FAILED=1
     continue
   fi
-  if ! brew test "isityael/tap/$name"; then
-    echo "FAIL: test $name"
+  if ! brew test "isityael/tap/${name}"
+  then
+    echo "FAIL: test ${name}"
     FAILED=1
   fi
-  brew uninstall "$name" 2>/dev/null || true
+  brew uninstall "${name}" 2>/dev/null || true
 done
 
-if [ "$FAILED" -ne 0 ]; then
+if [[ "${FAILED}" -ne 0 ]]
+then
   echo "==> Some tests failed"
   exit 1
 fi

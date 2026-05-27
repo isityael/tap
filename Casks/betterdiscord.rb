@@ -15,6 +15,7 @@ cask "betterdiscord" do
   end
 
   conflicts_with cask: "betterdiscord-installer"
+  depends_on :macos
 
   app "BetterDiscord.app"
 

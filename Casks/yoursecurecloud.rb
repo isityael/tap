@@ -13,6 +13,7 @@ cask "yoursecurecloud" do
   # To check for updates: mount the DMG and inspect Info.plist.
 
   conflicts_with cask: "seafile-client"
+  depends_on :macos
 
   app "YourSecureCloud.app"
 
