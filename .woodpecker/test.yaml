@@ -3,12 +3,10 @@ when:
   - event: pull_request
     path:
       - "Formula/**"
-      - "Casks/**"
   - event: push
     branch: main
     path:
       - "Formula/**"
-      - "Casks/**"
   - event: manual
 
 steps:
