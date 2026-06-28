@@ -5,7 +5,7 @@ class AppleMailMcp < Formula
   desc "MCP server for Apple Mail — natural language email management"
   homepage "https://github.com/isityael/apple-mail-mcp"
   url "https://github.com/isityael/apple-mail-mcp/archive/refs/tags/v2.6.5.tar.gz"
-  sha256 "83625cb59fc3bcfbd5a6e80b04a0a1af723030d852348e7461ec828f495ca61c"
+  sha256 "4a25bf6e930a4cc38be8eccfdc503bd5d9cebfccde84119f2618dd34ebc0cf39"
   license "Apache-2.0"
 
   depends_on :macos
