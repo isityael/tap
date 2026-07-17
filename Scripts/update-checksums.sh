@@ -18,6 +18,10 @@ do
   name=$(basename "${file}" .rb)
 
   case "${name}" in
+    apple-mail-mcp)
+      version=$(ruby -e "puts File.read('${file}')[%r{/archive/v([\\d.]+)\\.tar\\.gz}, 1]")
+      url="https://git.m0sh1.cc/isityael/apple-mail-mcp/archive/v${version}.tar.gz"
+      ;;
     betterdiscord)
       version=$(ruby -e "puts File.read('${file}')[/version\s+\"([^\"]+)\"/, 1]")
       url="https://github.com/BetterDiscord/Installer/releases/download/v${version}/BetterDiscord-Mac.zip"

@@ -1,15 +1,28 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>sm-moshi/infra//.github/renovate/base",
+    "local>isityael/infra//.github/renovate/base.json",
     "config:best-practices",
     ":semanticCommits",
     ":automergeMinor"
   ],
   "pinDigests": false,
-  "dependencyDashboardApproval": true,
-  "assignees": [ "sm-moshi" ],
+  "dependencyDashboardApproval": false,
+  "assignees": [ "isityael" ],
   "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Apple Mail MCP formula — Forgejo tags",
+      "managerFilePatterns": [
+        "/^Formula/apple-mail-mcp\\.rb$/"
+      ],
+      "matchStrings": [
+        "url \\\"https://git\\.m0sh1\\.cc/isityael/apple-mail-mcp/archive/v(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.tar\\.gz\\\""
+      ],
+      "depNameTemplate": "https://git.m0sh1.cc/isityael/apple-mail-mcp.git",
+      "datasourceTemplate": "git-tags",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    },
     {
       "customType": "regex",
       "description": "BetterDiscord cask — GitHub releases",
@@ -75,6 +88,13 @@
     }
   ],
   "packageRules": [
+    {
+      "description": "Keep Apple Mail MCP on the fork's v2 release line",
+      "matchPackageNames": [
+        "https://git.m0sh1.cc/isityael/apple-mail-mcp.git"
+      ],
+      "allowedVersions": "<3.0.0"
+    },
     {
       "description": "Group all cask updates together",
       "matchFileNames": [ "Casks/**" ],
