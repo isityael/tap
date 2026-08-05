@@ -30,7 +30,7 @@ steps:
       - cp -r Formula/* "$TAP_PATH/Formula/" 2>/dev/null || true
       - cp -r Casks/* "$TAP_PATH/Casks/" 2>/dev/null || true
       - brew audit --tap yaelmoshi/tap || true
-      - brew style yaelmoshi/tap
+      - brew style "$TAP_PATH/Formula" "$TAP_PATH/Casks"
 
   - name: shellcheck
     image: koalaman/shellcheck-alpine:stable@sha256:c82fe42504fbc9fc68f15d36638e5ee2324ebb8b94e96a3c4e395bf361c49183
