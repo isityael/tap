@@ -1,4 +1,4 @@
-# homebrew-tap bottle — build ARM64 bottle on Mac via SSH, release to GitHub
+# homebrew-tap bottle — build on macOS, publish canonically on Forgejo and duplicate to GitHub
 when:
   - event: push
     branch: main
@@ -10,22 +10,49 @@ steps:
   - name: bottle-arm
     image: dhi.io/alpine-base:3.24-dev@sha256:d76c2c09e2c89e900dcd0eaef94ecd90e95a318af466c61488385bec10d84003
     environment:
+      FORGEJO_TOKEN:
+        from_secret: forgejo_token
       GITHUB_TOKEN:
         from_secret: github_token
       SSH_KEY:
         from_secret: mac_builder_ssh_key
     commands:
-      - apk add --no-cache openssh-client bash
+      - apk add --no-cache openssh-client bash git curl jq github-cli coreutils
+      - |
+        case "$(uname -m)" in
+          x86_64) FJ_ARCH=x86_64 ;;
+          aarch64) FJ_ARCH=aarch64 ;;
+          *) echo "Unsupported fj architecture: $(uname -m)" >&2; exit 1 ;;
+        esac
+        curl -fsSL \
+          "https://codeberg.org/forgejo-contrib/forgejo-cli/releases/download/v0.6.0/forgejo-cli-${FJ_ARCH}-linux.tar.gz" \
+          | tar -xzf - -C /usr/local/bin fj
+        fj version
       - mkdir -p ~/.ssh && chmod 700 ~/.ssh
       - printf '%s\n' "$SSH_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
       - ssh-keyscan -H 10.0.0.6 >> ~/.ssh/known_hosts 2>/dev/null
+      - 'REMOTE_DIR="/tmp/tap-bottle-${CI_PIPELINE_NUMBER}"'
+      - mkdir -p bottle-output
       - |
-        ssh yaelmeya@10.0.0.6 "export GITHUB_TOKEN='${GITHUB_TOKEN}'; export CI_COMMIT_SHA='${CI_COMMIT_SHA}'; bash" <<'REMOTE_EOF'
+        ssh yaelmeya@10.0.0.6 "export FORGEJO_TOKEN='${FORGEJO_TOKEN}'; export CI_COMMIT_SHA='${CI_COMMIT_SHA}'; export REMOTE_DIR='${REMOTE_DIR}'; bash" <<'REMOTE_EOF'
         set -euo pipefail
-        WORKDIR=$(mktemp -d)
-        git clone --depth=50 "https://x-access-token:${GITHUB_TOKEN}@github.com/yaelmoshi/tap.git" "$WORKDIR"
-        cd "$WORKDIR" && git checkout "${CI_COMMIT_SHA}"
-        export GITHUB_TOKEN
-        bash "$WORKDIR/Scripts/bottle-arm.sh" "$WORKDIR"
-        rm -rf "$WORKDIR"
+        rm -rf "${REMOTE_DIR}"
+        mkdir -p "${REMOTE_DIR}/repo" "${REMOTE_DIR}/output"
+        FORGEJO_AUTH=$(printf '%s' "isityael:${FORGEJO_TOKEN}" | base64 | tr -d '\n')
+        git -c http.extraHeader="Authorization: Basic ${FORGEJO_AUTH}" clone --depth=50 \
+          "https://git.m0sh1.cc/isityael/tap.git" "${REMOTE_DIR}/repo"
+        unset FORGEJO_AUTH
+        cd "${REMOTE_DIR}/repo" && git checkout "${CI_COMMIT_SHA}"
+        bash "${REMOTE_DIR}/repo/Scripts/bottle-arm.sh" \
+          "${REMOTE_DIR}/repo" "${REMOTE_DIR}/output"
         REMOTE_EOF
+      - 'scp "yaelmeya@10.0.0.6:${REMOTE_DIR}/output/"* bottle-output/'
+      - ssh yaelmeya@10.0.0.6 "rm -rf '${REMOTE_DIR}'"
+      - cp bottle-output/fast-cli.rb Formula/fast-cli.rb
+      - |
+        VERSION=$(ruby -e 'puts File.read("Formula/fast-cli.rb")[/fast-cli-([\d.]+)\.tgz/, 1]')
+      - 'BOTTLE_FILE=$(find bottle-output -type f -name "*.bottle.tar.gz" -print -quit)'
+      - 'BOTTLE_JSON=$(find bottle-output -type f -name "*.json" -print -quit)'
+      - EXPECTED_COMMIT="$CI_COMMIT_SHA"
+      - export VERSION BOTTLE_FILE BOTTLE_JSON EXPECTED_COMMIT FORGEJO_TOKEN GITHUB_TOKEN
+      - bash Scripts/publish-bottle.sh
