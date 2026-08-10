@@ -13,8 +13,6 @@ steps:
   - name: test-macos
     image: dhi.io/alpine-base:3.24-dev@sha256:d76c2c09e2c89e900dcd0eaef94ecd90e95a318af466c61488385bec10d84003
     environment:
-      FORGEJO_TOKEN:
-        from_secret: forgejo_token
       SSH_KEY:
         from_secret: mac_builder_ssh_key
     commands:
@@ -23,13 +21,10 @@ steps:
       - printf '%s\n' "$SSH_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
       - ssh-keyscan -H 10.0.0.6 >> ~/.ssh/known_hosts 2>/dev/null
       - |
-        ssh yaelmeya@10.0.0.6 "export FORGEJO_TOKEN='${FORGEJO_TOKEN}'; export CI_COMMIT_SHA='${CI_COMMIT_SHA}'; export CI_COMMIT_PULL_REQUEST='${CI_COMMIT_PULL_REQUEST:-}'; bash" <<'REMOTE_EOF'
+        ssh yaelmeya@10.0.0.6 "export CI_COMMIT_SHA='${CI_COMMIT_SHA}'; export CI_COMMIT_PULL_REQUEST='${CI_COMMIT_PULL_REQUEST:-}'; bash" <<'REMOTE_EOF'
         set -euo pipefail
         WORKDIR=$(mktemp -d)
-        FORGEJO_AUTH=$(printf '%s' "isityael:${FORGEJO_TOKEN}" | base64 | tr -d '\n')
-        git -c http.extraHeader="Authorization: Basic ${FORGEJO_AUTH}" clone --depth=50 \
-          "https://git.m0sh1.cc/isityael/tap.git" "$WORKDIR"
-        unset FORGEJO_AUTH
+        git clone --depth=50 "https://git.m0sh1.cc/isityael/tap.git" "$WORKDIR"
         cd "$WORKDIR"
         if [ -n "${CI_COMMIT_PULL_REQUEST:-}" ]; then
           git fetch origin "pull/${CI_COMMIT_PULL_REQUEST}/head" --depth=50
