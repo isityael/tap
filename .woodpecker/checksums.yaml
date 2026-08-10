@@ -10,8 +10,8 @@ steps:
   - name: update-checksums
     image: ghcr.io/homebrew/brew:latest@sha256:e23a1765a309eb4bb559b5d0e6dd9744239a3490b57de440eb2b942cad6e6058
     environment:
-      GITHUB_TOKEN:
-        from_secret: github_token
+      FORGEJO_TOKEN:
+        from_secret: forgejo_token
     commands:
       - CHANGED=$(git diff --name-only origin/main -- 'Casks/*.rb' 'Formula/*.rb' | tr '\n' ' ')
       - |
@@ -23,7 +23,8 @@ steps:
       - bash Scripts/update-checksums.sh $CHANGED
       - git config user.name "Woodpecker CI"
       - git config user.email "ci@m0sh1.cc"
-      - 'git remote set-url origin "https://x-access-token:$GITHUB_TOKEN@github.com/yaelmoshi/tap.git"'
+      - 'FORGEJO_AUTH=$(printf "%s" "$CI_REPO_OWNER:$FORGEJO_TOKEN" | base64 | tr -d "\n")'
+      - git remote set-url origin "https://git.m0sh1.cc/isityael/tap.git"
       - git add Formula/ Casks/
       - |
         if git diff --cached --quiet; then
@@ -31,4 +32,5 @@ steps:
           exit 0
         fi
       - 'git commit -m "fix: update sha256 checksums [CI SKIP]"'
-      - git push origin HEAD
+      - 'git -c http.extraHeader="Authorization: Basic $FORGEJO_AUTH" push origin HEAD'
+      - unset FORGEJO_AUTH

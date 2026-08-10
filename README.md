@@ -1,15 +1,31 @@
-# yaelmoshi/tap
+# isityael/tap
+
+The canonical source, issues, pull requests, and releases are hosted on
+[Forgejo](https://git.m0sh1.cc/isityael/tap). The
+[GitHub repository](https://github.com/isityael/tap) is a public Git mirror and
+Homebrew release-asset endpoint.
 
 ## How do I install these formulae?
 
-`brew install yaelmoshi/tap/<formula>`
+Add the tap with its explicit GitHub mirror URL:
 
-Or `brew tap yaelmoshi/tap` and then `brew install <formula>`.
+```sh
+brew tap isityael/tap https://github.com/isityael/tap.git
+```
 
-Or, in a `brew bundle` `Brewfile`:
+Then install a formula:
+
+```sh
+brew install isityael/tap/<formula>
+```
+
+Existing `yaelmoshi/tap` installations remain supported and continue to update
+from the same GitHub mirror.
+
+In a `brew bundle` `Brewfile`:
 
 ```ruby
-tap "yaelmoshi/tap"
+tap "isityael/tap", "https://github.com/isityael/tap.git"
 brew "<formula>"
 ```
 
