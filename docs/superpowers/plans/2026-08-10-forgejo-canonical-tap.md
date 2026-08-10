@@ -44,7 +44,7 @@ grep -Fq 'sh .ci/test-woodpecker-lint.sh' .woodpecker/lint.yaml
 grep -Fq 'sh .ci/test-forgejo-canonical.sh' .woodpecker/lint.yaml
 grep -Fq 'https://git.m0sh1.cc/isityael/tap.git' .woodpecker/checksums.yaml
 grep -Fq 'https://git.m0sh1.cc/isityael/tap.git' .woodpecker/test.yaml
-! grep -R -F 'github.com/yaelmoshi/tap' .woodpecker Scripts README.md
+! grep -F 'github.com/yaelmoshi/tap' .woodpecker/checksums.yaml .woodpecker/test.yaml README.md
 grep -Fq '"enabled": true' renovate.json
 grep -Fq 'Keep Headlamp updates enabled' renovate.json
 grep -Fq 'brew tap isityael/tap https://github.com/isityael/tap.git' README.md

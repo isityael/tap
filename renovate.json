@@ -107,7 +107,7 @@
       "commitMessageTopic": "formula {{depName}}"
     },
     {
-      "description": "Headlamp is disabled — suppress updates",
+      "description": "Keep Headlamp updates enabled",
       "matchDepNames": [ "kubernetes-sigs/headlamp" ],
       "enabled": true
     }
