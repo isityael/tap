@@ -8,7 +8,7 @@ when:
 
 steps:
   - name: update-checksums
-    image: ghcr.io/homebrew/brew:latest@sha256:e23a1765a309eb4bb559b5d0e6dd9744239a3490b57de440eb2b942cad6e6058
+    image: ghcr.io/homebrew/brew:latest@sha256:6878cc30c7ea3b7f672e6d8eaddd67e34b6de3f17f7fdd2656f6e8ca9c7b917b
     environment:
       FORGEJO_TOKEN:
         from_secret: forgejo_token
