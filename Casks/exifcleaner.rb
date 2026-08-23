@@ -1,5 +1,5 @@
 cask "exifcleaner" do
-  version "4.2.0"
+  version "4.2.1"
   sha256 "459b296b000a7cd614713772e9b4ecf1604d3bb10926ab2346e8ea88e44df323"
 
   url "https://github.com/szTheory/exifcleaner/releases/download/v#{version}/ExifCleaner-#{version}.dmg",
