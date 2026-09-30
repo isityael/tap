@@ -19,19 +19,17 @@ cask "betterdiscord" do
 
   app "BetterDiscord.app"
 
-  preflight do
-    editions = [
-      "/Applications/Discord.app",
-      "/Applications/Discord PTB.app",
-      "/Applications/Discord Canary.app",
-      "#{Dir.home}/Applications/Discord.app",
-      "#{Dir.home}/Applications/Discord PTB.app",
-      "#{Dir.home}/Applications/Discord Canary.app",
-    ]
-    unless editions.any? { |p| File.exist?(p) }
-      raise "No Discord installation found (Stable/PTB/Canary). " \
-            "Install one before running BetterDiscord Installer."
-    end
+  preflight_steps do
+    run "/bin/sh", args: ["-c", <<~SH]
+      for app in "/Applications/Discord.app" "/Applications/Discord PTB.app" "/Applications/Discord Canary.app" \
+                 "$HOME/Applications/Discord.app" "$HOME/Applications/Discord PTB.app" \
+                 "$HOME/Applications/Discord Canary.app"; do
+        [ ! -e "$app" ] || exit 0
+      done
+      echo "No Discord installation found (Stable/PTB/Canary)." >&2
+      echo "Install one before running BetterDiscord Installer." >&2
+      exit 1
+    SH
   end
 
   uninstall quit: [
