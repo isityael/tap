@@ -18,7 +18,7 @@ when:
 steps:
   - name: tap-syntax
     depends_on: []
-    image: ghcr.io/homebrew/brew:latest@sha256:1c791c9af3aee7749225f8f6ff18a23dcd2a81abc65cd6be0aad24192b7219e4
+    image: ghcr.io/homebrew/brew:latest@sha256:63f9a03880f954b2dc05ee0b8e93903dae2f161883af0072d77f476303fc834a
     environment:
       HOMEBREW_NO_ANALYTICS: "1"
       HOMEBREW_NO_AUTO_UPDATE: "1"
