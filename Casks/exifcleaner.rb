@@ -1,5 +1,5 @@
 cask "exifcleaner" do
-  version "4.4.0"
+  version "4.5.0"
   sha256 "459b296b000a7cd614713772e9b4ecf1604d3bb10926ab2346e8ea88e44df323"
 
   url "https://github.com/szTheory/exifcleaner/releases/download/v#{version}/ExifCleaner-#{version}.dmg",
@@ -19,12 +19,11 @@ cask "exifcleaner" do
 
   app "ExifCleaner.app"
 
-  postflight do
-    target = "#{appdir}/ExifCleaner.app"
-    if File.exist?(target)
-      system_command "/usr/bin/xattr",
-                     args: ["-dr", "com.apple.quarantine", target],
-                     print_stdout: true, print_stderr: true
+  postflight_steps do
+    if_path_exists "{{appdir}}/ExifCleaner.app" do
+      run "/usr/bin/xattr",
+          args: ["-dr", "com.apple.quarantine", "{{appdir}}/ExifCleaner.app"],
+          print_stdout: true, print_stderr: true
     end
   end
 
@@ -42,7 +41,7 @@ cask "exifcleaner" do
       This app is not notarized upstream. The cask runs
       `xattr -dr com.apple.quarantine` automatically after install
       to allow launching. If you prefer Apple’s standard Gatekeeper
-      flow, comment out the `postflight` stanza and right-click → Open.
+      flow, comment out the `postflight_steps` stanza and right-click → Open.
     EOS
   end
 end
