@@ -6,7 +6,7 @@ require "language/node"
 class FastCli < Formula
   desc "Test your internet connection speed using Netflix's fast.com"
   homepage "https://github.com/sindresorhus/fast-cli"
-  url "https://registry.npmjs.org/fast-cli/-/fast-cli-5.2.0.tgz"
+  url "https://registry.npmjs.org/fast-cli/-/fast-cli-6.0.0.tgz"
   sha256 "05e8cd8259e60631c280efb8e0d8c985aef402c76e8953f234bc4c3028b8fed5"
   license "MIT"
 
