@@ -8,7 +8,7 @@ when:
 
 steps:
   - name: bottle-arm
-    image: dhi.io/alpine-base:3.24-dev@sha256:08d37dc414e07a688b0c3b9405e0b33688507e41a74bc24118a7f0817b772e27
+    image: dhi.io/alpine-base:3.24-dev@sha256:7182e0bc2f186386bb23bc0718508913450ba1876e93cf07e5e3cf263c4dbb63
     environment:
       FORGEJO_TOKEN:
         from_secret: forgejo_token
