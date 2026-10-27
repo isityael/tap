@@ -1,11 +1,6 @@
 # homebrew-tap lint — tap syntax validation + shellcheck
 when:
   - event: [pull_request]
-    path:
-      - "Formula/**"
-      - "Casks/**"
-      - "Scripts/**"
-      - ".woodpecker/**"
   - event: push
     branch: main
     path:
