@@ -13,7 +13,7 @@ when:
 steps:
   - name: tap-syntax
     depends_on: []
-    image: ghcr.io/homebrew/brew:latest@sha256:46dd6ced1f11325afc36a7fc2c749ff5b22414486f9966b99a284525f32b5d5e
+    image: ghcr.io/homebrew/brew:7.0.10
     environment:
       HOMEBREW_NO_ANALYTICS: "1"
       HOMEBREW_NO_AUTO_UPDATE: "1"
@@ -29,7 +29,7 @@ steps:
 
   - name: shellcheck
     depends_on: []
-    image: koalaman/shellcheck-alpine:stable@sha256:c82fe42504fbc9fc68f15d36638e5ee2324ebb8b94e96a3c4e395bf361c49183
+    image: koalaman/shellcheck-alpine:stable
     commands:
       - find Scripts -type f -name "*.sh" -print0 | xargs -0 shellcheck -S error
       - find .ci -type f -name "*.sh" -print0 | xargs -0 shellcheck -S error
