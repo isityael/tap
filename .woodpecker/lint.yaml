@@ -29,7 +29,7 @@ steps:
 
   - name: shellcheck
     depends_on: []
-    image: koalaman/shellcheck-alpine:stable
+    image: dhi.io/shellcheck:0.11.0-debian13-dev
     commands:
       - find Scripts -type f -name "*.sh" -print0 | xargs -0 shellcheck -S error
       - find .ci -type f -name "*.sh" -print0 | xargs -0 shellcheck -S error
