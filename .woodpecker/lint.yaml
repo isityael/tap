@@ -31,6 +31,7 @@ steps:
     depends_on: []
     image: dhi.io/shellcheck:0.11.0-debian13-dev
     commands:
+      - apt-get update && apt-get install -y --no-install-recommends grep && rm -rf /var/lib/apt/lists/*
       - find Scripts -type f -name "*.sh" -print0 | xargs -0 shellcheck -S error
       - find .ci -type f -name "*.sh" -print0 | xargs -0 shellcheck -S error
       - sh .ci/test-woodpecker-lint.sh
